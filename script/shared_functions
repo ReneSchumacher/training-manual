@@ -65,7 +65,7 @@ create_repo() {
 
   echo -n "Creating repository: $name... "
 
-  if http --check-status --ignore-stdin --quiet --auth \
+  if http --check-status --ignore-stdin -p '' --auth \
     "$TOKEN_OWNER:$TEACHER_PAT" "$repos_endpoint" \
     name="$name" \
     description="$description" \
@@ -163,7 +163,7 @@ create_project_card() {
 
   echo -n "Creating project card: $name... "
 
-  if http --check-status --ignore-stdin --quiet --auth \
+  if http --check-status --ignore-stdin -p '' --auth \
     "$TOKEN_OWNER:$TEACHER_PAT" "$project_card_endpoint" \
     "Accept:application/vnd.github.inertia-preview+json" \
     project_id="$project_id" \
@@ -223,7 +223,7 @@ update_file_contents() {
 
   echo -n "Updating contents of $file_path... "
 
-  if http --check-status --ignore-stdin --quiet --auth \
+  if http --check-status --ignore-stdin -p '' --auth \
     "$TOKEN_OWNER:$TEACHER_PAT" PUT "$contents_endpoint" \
     content="$(echo "$content" | base64)" \
     message="$message" \
@@ -248,7 +248,7 @@ add_repo_collaborator() {
 
   echo -n "Inviting $user as a collaborator to $repo... "
 
-  if http --check-status --ignore-stdin --quiet --auth "$TOKEN_OWNER:$TEACHER_PAT" \
+  if http --check-status --ignore-stdin -p '' --auth "$TOKEN_OWNER:$TEACHER_PAT" \
     PUT "$collaborators_endpoint" \
     permission="$permission"; then
     echo "Done."
@@ -272,7 +272,7 @@ create_issue() {
   # Wait for 1 second to avoid secondary rate limiting
   sleep 1
 
-  if http --check-status --ignore-stdin --quiet --auth \
+  if http --check-status --ignore-stdin -p '' --auth \
     "$TOKEN_OWNER:$TEACHER_PAT" "$org_repos_endpoint/$repo/issues" \
     title="$title" \
     body="$body"; then
@@ -297,7 +297,7 @@ create_pull_request() {
   # Wait for 1 second to avoid secondary rate limiting
   sleep 1
 
-  if http --check-status --ignore-stdin --quiet --auth \
+  if http --check-status --ignore-stdin -p '' --auth \
     "$TOKEN_OWNER:$TEACHER_PAT" "$org_repos_endpoint/$repo/pulls" \
     title="$title" \
     head="$head" \

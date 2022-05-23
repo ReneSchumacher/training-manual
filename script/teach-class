@@ -65,6 +65,7 @@ do_task() {
     COLLAB_REPO=$COLLAB_REPO_WHITESPACE
   elif [ "$TASK" -ne 0 ]; then
     # Validate we have env variables sourced
+    source "$HOME/.trainingmanualrc"
     check_env
   fi
 

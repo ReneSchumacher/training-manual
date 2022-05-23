@@ -146,17 +146,12 @@ create_initial_project() {
 
 update_branch_protections() {
   # Update branch protection rules for the default branch
-  if http --check-status --ignore-stdin --quiet --auth "$TOKEN_OWNER:$TEACHER_PAT" --raw '{
-    "required_status_checks": null,
-    "enforce_admins": false,
-    "required_pull_request_reviews": {
-      "required_approving_review_count": 1
-    },
-    "restrictions": {
-      "users": ["'"$TEACHER"'", "'"$TOKEN_OWNER"'"],
-      "teams": []
-    }
-  }' PUT "$org_repos_endpoint/$initial_repo_name/branches/$default_branch/protection" "Accept:application/vnd.github.luke-cage-preview+json"; then
+  if http --check-status --ignore-stdin -p '' --auth "$TOKEN_OWNER:$TEACHER_PAT" \
+      PUT "$org_repos_endpoint/$initial_repo_name/branches/$default_branch/protection" Accept:application/vnd.github.luke-cage-preview+json \
+      required_status_checks:=null \
+      enforce_admins:=false \
+      required_pull_request_reviews:='{"required_approving_review_count": 1}' \
+      restrictions:='{ "users": ["$TEACHER", "$TOKEN_OWNER"], "teams": [] }'; then
     echo "Branch protection rules updated."
   else
     print_error "Failed to update branch protection rules."
@@ -179,11 +174,9 @@ create_initial_issue() {
 }
 
 enable_github_pages() {
-  if http --check-status --ignore-stdin --quiet --auth "$TOKEN_OWNER:$TEACHER_PAT" --raw '{
-    "source": {
-      "branch": "'"$default_branch"'"
-    }
-  }' POST "$org_repos_endpoint/$initial_repo_name/pages" "Accept:application/vnd.github.switcheroo-preview+json"; then
+  if http --check-status --ignore-stdin -p '' --auth "$TOKEN_OWNER:$TEACHER_PAT" \
+       POST "$org_repos_endpoint/$initial_repo_name/pages" Accept:application/vnd.github.switcheroo-preview+json \
+       source:='{ "branch": "'$default_branch'" }'; then
     echo "GitHub Pages enabled."
   else
     print_error "Failed to enable GitHub Pages."
