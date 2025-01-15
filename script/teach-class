@@ -90,7 +90,7 @@ do_task() {
   elif [ "$TASK" -eq 1 ]; then
     # echo "1: Create a new caption-this class repository"
     echo "Running script/create-initial-repo"
-    ./create-initial-repo
+    ./create-initial-repo-cli
 
   # TASK 2
   elif [ "$TASK" -eq 2 ]; then
