@@ -37,7 +37,6 @@ create_initial_repo() {
   gh repo create $CLASS_ORG/$repo_name \
      --description "Let's learn about Git and GitHub" \
      --homepage "$homepage" \
-     --disable-wiki \
      --public
 
   # Create a temporary directory for the template repo
